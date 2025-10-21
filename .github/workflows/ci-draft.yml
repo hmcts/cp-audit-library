@@ -57,13 +57,12 @@ jobs:
           ARTEFACT_VERSION: ${{ needs.Artefact-Version.outputs.artefact_version }}
           JAVA_VERSION: ${{ matrix.java }}
         run: |
-          echo "COLING temp event_name:${{github.event_name}}"
           echo "Building with ARTEFACT_VERSION=$ARTEFACT_VERSION using Java $JAVA_VERSION"
           gradle build -DAPI_SPEC_VERSION=$ARTEFACT_VERSION
 
   Publish:
     name: Publish Artefact - Java ${{ matrix.java }}
-    if: github.event_name == 'push'
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     needs: [Artefact-Version]
     strategy:
