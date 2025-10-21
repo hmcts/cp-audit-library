@@ -90,7 +90,7 @@ jobs:
           AZURE_DEVOPS_ARTIFACT_TOKEN: ${{ secrets.AZURE_DEVOPS_ARTIFACT_TOKEN }}
           JAVA_VERSION: ${{ matrix.java }}
         run: |
-          echo "Publishing artefact for ARTEFACT_VERSION=$ARTEFACT_VERSION using Java $JAVA_VERSION"
+          echo "Publishing DRAFT artefact for ARTEFACT_VERSION=$ARTEFACT_VERSION using Java $JAVA_VERSION"
           
           gradle build -x test publish \
             -DAPI_SPEC_VERSION=$ARTEFACT_VERSION \

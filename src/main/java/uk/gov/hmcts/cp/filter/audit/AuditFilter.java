@@ -1,5 +1,6 @@
 package uk.gov.hmcts.cp.filter.audit;
 
+import lombok.extern.slf4j.Slf4j;
 import uk.gov.hmcts.cp.filter.audit.model.AuditPayload;
 import uk.gov.hmcts.cp.filter.audit.service.AuditPayloadGenerationService;
 import uk.gov.hmcts.cp.filter.audit.service.AuditService;
@@ -31,9 +32,8 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 @Order(Ordered.HIGHEST_PRECEDENCE + 50)
 @AllArgsConstructor
 @ConditionalOnProperty(name = "audit.http.enabled", havingValue = "true")
+@Slf4j
 public class AuditFilter extends OncePerRequestFilter {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(AuditFilter.class);
 
     private static final int CACHE_LIMIT = 65_536; // 64 KB
 
@@ -83,7 +83,7 @@ public class AuditFilter extends OncePerRequestFilter {
         try {
             return new String(content, encoding);
         } catch (IOException ex) {
-            LOGGER.error("Unable to parse payload for audit", ex);
+            log.error("Unable to parse payload for audit", ex);
             return "";
         }
     }
