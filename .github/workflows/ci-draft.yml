@@ -57,6 +57,7 @@ jobs:
           ARTEFACT_VERSION: ${{ needs.Artefact-Version.outputs.artefact_version }}
           JAVA_VERSION: ${{ matrix.java }}
         run: |
+          echo "COLING temp event_name:${github.event_name}"
           echo "Building with ARTEFACT_VERSION=$ARTEFACT_VERSION using Java $JAVA_VERSION"
           gradle build -DAPI_SPEC_VERSION=$ARTEFACT_VERSION
 
