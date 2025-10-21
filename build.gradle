@@ -12,6 +12,14 @@ repositories {
   mavenCentral()
 }
 
+tasks.withType(Test).configureEach {
+  useJUnitPlatform()
+
+  testLogging {
+    exceptionFormat = 'full'
+  }
+}
+
 ext {
   springBootVersion = "4.0.0-M2"
   lombokVersion = "1.18.38"
