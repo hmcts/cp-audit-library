@@ -1,5 +1,14 @@
 package uk.gov.hmcts.cp.filter.audit.parser;
 
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Paths;
+import jakarta.annotation.PostConstruct;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 import uk.gov.hmcts.cp.filter.audit.util.ClasspathResourceLoader;
 
 import java.io.IOException;
@@ -8,22 +17,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
-import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Paths;
-import jakarta.annotation.PostConstruct;
-import lombok.Getter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Component;
-
 @Getter
 @Component
+@Slf4j
 public class OpenApiSpecificationParser implements RestApiParser {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(OpenApiSpecificationParser.class);
 
     private final Map<String, Pattern> pathPatterns = new HashMap<>();
 
@@ -46,7 +43,7 @@ public class OpenApiSpecificationParser implements RestApiParser {
         final Optional<Resource> optionalResource = resourceLoader.loadFilesByPattern(restSpecification);
 
         if (optionalResource.isEmpty()) {
-            LOGGER.warn("No OpenAPI specification found at the specified path: {}", restSpecification);
+            log.warn("No OpenAPI specification found at the specified path: {}", restSpecification);
             throw new IllegalArgumentException("No OpenAPI specification found at the specified path");
         }
 
@@ -60,11 +57,11 @@ public class OpenApiSpecificationParser implements RestApiParser {
 
         final Paths paths = openAPI.getPaths();// NOPMD UseInterfaceType
         if (null == paths || paths.isEmpty()) {
-            LOGGER.warn("Supplied specification has no endpoints defined: {}", restSpecification);
+            log.warn("Supplied specification has no endpoints defined: {}", restSpecification);
             throw new IllegalArgumentException("Supplied specification has no endpoints defined: " + restSpecification);
         }
 
-        LOGGER.info("Loaded {} paths from OpenAPI specification", paths.size());
+        log.info("Loaded {} paths from OpenAPI specification", paths.size());
 
         paths.forEach((path, pathItem) -> {
             if (null == pathItem || null == path) {
