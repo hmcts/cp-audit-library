@@ -62,7 +62,7 @@ jobs:
 
   Publish:
     name: Publish Artefact - Java ${{ matrix.java }}
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     needs: [Artefact-Version]
     strategy:
