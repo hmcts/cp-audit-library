@@ -1,6 +1,7 @@
 plugins {
   id 'java-library'
   id 'maven-publish'
+  id 'org.cyclonedx.bom' version '2.4.1'
   id 'pmd'
 }
 
@@ -64,7 +65,6 @@ dependencies {
 
   implementation 'com.fasterxml.jackson.core:jackson-databind'
   implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8'
-  implementation 'io.swagger.parser.v3:swagger-parser:2.1.20'
 
   // --- Lombok for main and test code ---
   compileOnly "org.projectlombok:lombok:${lombokVersion}"
