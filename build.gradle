@@ -4,6 +4,9 @@ plugins {
   id 'pmd'
 }
 
+group = 'uk.gov.hmcts.cp'
+version = System.getProperty('API_SPEC_VERSION') ?: '0.0.999'
+
 repositories {
   mavenLocal()
   mavenCentral()
@@ -29,4 +32,7 @@ dependencies {
   testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
   testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
+  testImplementation 'org.junit.jupiter:junit-jupiter-api'
+  testImplementation 'org.junit.jupiter:junit-jupiter-engine'
+  testImplementation "org.junit.platform:junit-platform-launcher:6.0.0"
 }
