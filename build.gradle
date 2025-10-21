@@ -1,7 +1,7 @@
 plugins {
   id 'java-library'
   id 'maven-publish'
-  id 'org.cyclonedx.bom' version '2.4.1'
+  id 'org.cyclonedx.bom' version '3.0.1'
   id 'pmd'
 }
 
@@ -55,8 +55,8 @@ tasks.withType(Test).configureEach {
 }
 
 ext {
-  springBootVersion = "4.0.0-M2"
-  lombokVersion = "1.18.38"
+  springBootVersion = "4.0.0-M3"
+  lombokVersion = "1.18.42"
 }
 
 dependencies {
