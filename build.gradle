@@ -79,4 +79,9 @@ dependencies {
   testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiterVersion"
   testImplementation "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion"
   testImplementation "org.junit.platform:junit-platform-launcher:$jupiterVersion"
+  testImplementation("org.testcontainers:testcontainers:1.17.3")
+}
+
+jar{
+  exclude("uk/gov/hmcts/cp/audit/DummySpringApplication.class")
 }
