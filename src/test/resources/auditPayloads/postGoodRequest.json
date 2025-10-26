@@ -1,0 +1,22 @@
+{
+    "content": {
+        "cgfield": "cgvalue",
+        "_metadata": {
+            "id": "ea63bc79-3599-4cc9-9f1b-70ec80aa11c4",
+            "name": "*/*",
+            "createdAt": "2025-10-23T10:41:23.132Z",
+            "correlation": null,
+            "context": null
+        }
+    },
+    "origin": "",
+    "component": "-api",
+    "timestamp": "2025-10-23T10:41:23.132Z",
+    "_metadata": {
+        "id": "463622be-d420-48fa-879a-7ca4cc95b67f",
+        "name": "audit.events.audit-recorded",
+        "createdAt": "2025-10-23T10:41:23.132Z",
+        "correlation": null,
+        "context": null
+    }
+}

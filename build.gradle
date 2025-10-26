@@ -7,6 +7,13 @@ plugins {
 
 group = 'uk.gov.hmcts.cp'
 version = System.getProperty('API_SPEC_VERSION') ?: '0.0.999'
+
+java {
+  toolchain {
+    languageVersion.set(JavaLanguageVersion.of(21))
+  }
+}
+
 def githubActor = project.findProperty("github.actor") ?: System.getenv("GITHUB_ACTOR")
 def githubToken = project.findProperty("github.token") ?: System.getenv("GITHUB_TOKEN")
 def githubRepo = System.getenv("GITHUB_REPOSITORY")
@@ -64,7 +71,6 @@ ext {
 dependencies {
   implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
   implementation "org.springframework.boot:spring-boot-starter-artemis:$springBootVersion"
-
   implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
   implementation "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion"
   implementation "io.swagger.parser.v3:swagger-parser:2.1.20"
@@ -79,4 +85,8 @@ dependencies {
   testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiterVersion"
   testImplementation "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion"
   testImplementation "org.junit.platform:junit-platform-launcher:$jupiterVersion"
+}
+
+jar{
+  exclude("uk/gov/hmcts/cp/audit/DummySpringApplication.class")
 }
