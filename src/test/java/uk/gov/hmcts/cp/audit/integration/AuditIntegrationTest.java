@@ -29,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ExtendWith(MockitoExtension.class)
 @Slf4j
+@Disabled // need to work out how to fire up artemis
 /**
  * To enable this integration test to work properly in-app we need an activeMq listener up and running
  * This could be either
