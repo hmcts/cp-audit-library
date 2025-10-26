@@ -16,7 +16,6 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 import uk.gov.hmcts.cp.audit.model.AuditPayload;
 import uk.gov.hmcts.cp.audit.service.AuditPayloadGenerationService;
 import uk.gov.hmcts.cp.audit.service.AuditService;
-import uk.gov.hmcts.cp.audit.service.PathParameterService;
 
 import java.io.IOException;
 import java.util.Enumeration;
@@ -34,7 +33,6 @@ public class AuditFilter extends OncePerRequestFilter {
 
     private final AuditService auditService;
     private final AuditPayloadGenerationService auditPayloadGenerationService;
-    private PathParameterService pathParameterService;
 
     @Override
     protected boolean shouldNotFilter(final HttpServletRequest request) {
@@ -62,7 +60,7 @@ public class AuditFilter extends OncePerRequestFilter {
         final String requestPayload = getPayload(wrappedRequest.getContentAsByteArray(), wrappedRequest.getCharacterEncoding());
         final Map<String, String> headers = getHeaders(wrappedRequest);
         final Map<String, String> queryParams = getQueryParams(wrappedRequest);
-        final Map<String, String> pathParams = pathParameterService.getPathParameters(requestPath);
+        final Map<String, String> pathParams = Map.of("param", "path-param-todo");
 
         final AuditPayload auditRequestPayload = auditPayloadGenerationService.generatePayload(contextPath, requestPayload, headers, queryParams, pathParams);
         auditService.postMessageToArtemis(auditRequestPayload);

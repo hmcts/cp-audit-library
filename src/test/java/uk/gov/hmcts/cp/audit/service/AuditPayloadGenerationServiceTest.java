@@ -1,15 +1,14 @@
 package uk.gov.hmcts.cp.audit.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import uk.gov.hmcts.cp.audit.config.JacksonConfig;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.cp.audit.model.AuditPayload;
 
 import java.util.Map;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 class AuditPayloadGenerationServiceTest {
@@ -20,7 +19,8 @@ class AuditPayloadGenerationServiceTest {
 
     @BeforeEach
     void setUp() {
-        auditPayloadGenerationService = new AuditPayloadGenerationService(new JacksonConfig().objectMapper());
+        ObjectMapper objectMapper = new ObjectMapper();
+        auditPayloadGenerationService = new AuditPayloadGenerationService(objectMapper);
     }
 
     @Test

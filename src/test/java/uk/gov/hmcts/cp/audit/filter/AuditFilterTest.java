@@ -17,7 +17,6 @@ import static org.mockito.Mockito.when;
 import uk.gov.hmcts.cp.audit.model.AuditPayload;
 import uk.gov.hmcts.cp.audit.service.AuditPayloadGenerationService;
 import uk.gov.hmcts.cp.audit.service.AuditService;
-import uk.gov.hmcts.cp.audit.service.PathParameterService;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -63,10 +62,9 @@ class AuditFilterTest {
         // Mock dependencies
         mockAuditService = mock(AuditService.class);
         mockAuditPayloadGenerationService = mock(AuditPayloadGenerationService.class);
-        final PathParameterService mockPathParameterService = mock(PathParameterService.class);
 
         // Instantiate the filter with mocks
-        auditFilter = new AuditFilter(mockAuditService, mockAuditPayloadGenerationService, mockPathParameterService);
+        auditFilter = new AuditFilter(mockAuditService, mockAuditPayloadGenerationService);
 
         // Setup mock servlet objects
         mockRequest = new MockHttpServletRequest(REQUEST_METHOD, REQUEST_URI);
@@ -90,8 +88,6 @@ class AuditFilterTest {
             writer.flush(); // Ensure content is buffered
             return null;
         }).when(mockFilterChain).doFilter(any(), any());
-
-        when(mockPathParameterService.getPathParameters(any())).thenReturn(Map.of("pathparam1", "pathvalue1"));
 
         // 1. Mock for Request payload: generatePayload(String, String, Map, Map)
         when(mockAuditPayloadGenerationService.generatePayload(eq(CONTEXT_PATH), any(String.class), anyMap(), anyMap(), anyMap())).thenReturn(mockRequestAuditNode);

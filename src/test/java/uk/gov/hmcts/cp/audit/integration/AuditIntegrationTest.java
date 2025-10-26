@@ -5,6 +5,7 @@ import com.jayway.jsonpath.JsonPath;
 import jakarta.annotation.Resource;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -16,6 +17,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import uk.gov.hmcts.cp.audit.integration.testclasses.DummyService;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -27,6 +29,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ExtendWith(MockitoExtension.class)
 @Slf4j
+/**
+ * To enable this integration test to work properly in-app we need an activeMq listener up and running
+ * This could be either
+ * a) Some kind of dummy listener, not necessarily  amq
+ * b) An amq or artemis listener
+ * c) A docker container started by TestContainer
+ * d) A docker container started by spring boot docker-compose
+ * e) A docker container started externally like some kind of pre script
+ */
 class AuditIntegrationTest {
 
     @Resource
@@ -58,6 +69,8 @@ class AuditIntegrationTest {
         Object element1 = document.read(".[1]");
         log.info("Request audit payload:{}", element0.toString());
         log.info("Response audit payload:{}", element1.toString());
+        assertThat(element0.toString()).contains("path-param-todo");
+        assertThat(element1.toString()).contains("Hello");
     }
 
     @SneakyThrows
