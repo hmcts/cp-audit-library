@@ -55,10 +55,6 @@ publishing {
 
 tasks.withType(Test).configureEach {
   useJUnitPlatform()
-
-  testLogging {
-    exceptionFormat = 'full'
-  }
 }
 
 ext {
@@ -71,10 +67,7 @@ ext {
 dependencies {
   compileOnly "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
   testImplementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
-  api "org.springframework.boot:spring-boot-starter-artemis:$springBootVersion"
-  api "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
-  api "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion"
-  api "io.swagger.parser.v3:swagger-parser:2.1.20"
+
 
   // --- Lombok for main and test code ---
   compileOnly "org.projectlombok:lombok:${lombokVersion}"
@@ -86,6 +79,12 @@ dependencies {
   testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiterVersion"
   testImplementation "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion"
   testImplementation "org.junit.platform:junit-platform-launcher:$jupiterVersion"
+
+  // Project specific dependencies
+  api "org.springframework.boot:spring-boot-starter-artemis:$springBootVersion"
+  api "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+  api "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion"
+  api "io.swagger.parser.v3:swagger-parser:2.1.20"
 }
 
 jar{
