@@ -70,6 +70,7 @@ ext {
 
 dependencies {
   compileOnly "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+  testImplementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
   api "org.springframework.boot:spring-boot-starter-artemis:$springBootVersion"
   api "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
   api "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion"
