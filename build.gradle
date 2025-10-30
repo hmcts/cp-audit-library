@@ -84,7 +84,7 @@ dependencies {
   api "org.springframework.boot:spring-boot-starter-artemis:$springBootVersion"
   api "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
   api "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion"
-  api "io.swagger.parser.v3:swagger-parser:2.1.20"
+  api "io.swagger.parser.v3:swagger-parser:2.1.35"
 }
 
 jar{
