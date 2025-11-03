@@ -1,4 +1,4 @@
-audit:
-  http:
-    enabled: true
-    openapi-rest-spec: "sample.openapi.yml"
+spring:
+  artemis:
+    user: "artemis"
+    password: "artemis"

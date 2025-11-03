@@ -13,11 +13,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
+import uk.gov.hmcts.cp.audit.mapper.AuditPayloadMapper;
 import uk.gov.hmcts.cp.audit.model.AuditPayload;
 import uk.gov.hmcts.cp.audit.service.AuditPayloadGenerationService;
 import uk.gov.hmcts.cp.audit.service.AuditService;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,12 +27,16 @@ import java.util.Map;
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE + 50)
 @AllArgsConstructor
+// Not convinced we should hide the AuditFilter bean. If subscriber brings in, they need to wire it up
+// We should test with the full stack of spring beans
+// We allow the disabling of the audit functionality to allow simplification of some integration tests
 // @ConditionalOnProperty(name = "audit.http.enabled", havingValue = "true")
 @Slf4j
 public class AuditFilter extends OncePerRequestFilter {
 
     private static final int CACHE_LIMIT = 65_536; // 64 KB
 
+    private final AuditPayloadMapper mapper;
     private final AuditService auditService;
     private final AuditPayloadGenerationService auditPayloadGenerationService;
 
@@ -51,7 +57,20 @@ public class AuditFilter extends OncePerRequestFilter {
 
         submitAuditPayload(wrappedRequest, wrappedResponse);
 
+        // Lets just demonstrate that we can get the required information ... in int tests
+        // But not switch till we are happy
+        newAuditRequestPayload(request, getRequestBody(wrappedRequest));
+        newAuditResponsePayload(request, response, getResponseBody(wrappedResponse));
+
         wrappedResponse.copyBodyToResponse();
+    }
+
+    private void newAuditRequestPayload(HttpServletRequest request, String content) {
+        mapper.requestToPayLoad(request, content);
+    }
+
+    private void newAuditResponsePayload(HttpServletRequest request, HttpServletResponse response, String content) {
+        mapper.responseToPayload(request, response, content);
     }
 
     private void submitAuditPayload(final ContentCachingRequestWrapper wrappedRequest, final ContentCachingResponseWrapper wrappedResponse) {
@@ -72,12 +91,23 @@ public class AuditFilter extends OncePerRequestFilter {
         }
     }
 
+    private String getRequestBody(ContentCachingRequestWrapper request) throws IOException {
+        return new String(request.getInputStream().readAllBytes(), request.getCharacterEncoding());
+    }
+
+    private String getResponseBody(ContentCachingResponseWrapper response) throws UnsupportedEncodingException {
+        return new String(response.getContentAsByteArray(), response.getCharacterEncoding());
+    }
+
+    /**
+     * This works for response but not request
+     */
     private String getPayload(final byte[] content, final String encoding) {
         try {
             return new String(content, encoding);
         } catch (IOException ex) {
-            log.error("Unable to parse payload for audit", ex);
-            return "";
+            log.error("Failed to parse payload for audit {}", ex.getMessage());
+            throw new RuntimeException("Failed to parse payload for audit");
         }
     }
 
