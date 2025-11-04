@@ -59,7 +59,7 @@ tasks.withType(Test).configureEach {
 
 ext {
   springBootVersion = "3.4.3"
-  lombokVersion = "1.18.38"
+  lombokVersion = "1.18.42"
   jacksonVersion = "2.20.0"
   jupiterVersion = "6.0.0"
 }
@@ -84,7 +84,7 @@ dependencies {
   api "org.springframework.boot:spring-boot-starter-artemis:$springBootVersion"
   api "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
   api "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion"
-  api "io.swagger.parser.v3:swagger-parser:2.1.20"
+  api "io.swagger.parser.v3:swagger-parser:2.1.35"
 
   implementation "org.mapstruct:mapstruct:1.5.5.Final"
   annotationProcessor "org.mapstruct:mapstruct-processor:1.5.5.Final"
