@@ -65,17 +65,16 @@ public class AuditFilter extends OncePerRequestFilter {
         wrappedResponse.copyBodyToResponse();
     }
 
-    private void newAuditRequestPayload(HttpServletRequest request, String content) {
+    private void newAuditRequestPayload(final HttpServletRequest request, final String content) {
         mapper.requestToPayLoad(request, content);
     }
 
-    private void newAuditResponsePayload(HttpServletRequest request, HttpServletResponse response, String content) {
+    private void newAuditResponsePayload(final HttpServletRequest request, final HttpServletResponse response, final String content) {
         mapper.responseToPayload(request, response, content);
     }
 
     private void submitAuditPayload(final ContentCachingRequestWrapper wrappedRequest, final ContentCachingResponseWrapper wrappedResponse) {
         final String contextPath = removeLeadingForwardSlash(wrappedRequest.getContextPath());
-        final String requestPath = wrappedRequest.getServletPath();
         final String requestPayload = getPayload(wrappedRequest.getContentAsByteArray(), wrappedRequest.getCharacterEncoding());
         final Map<String, String> headers = getHeaders(wrappedRequest);
         final Map<String, String> queryParams = getQueryParams(wrappedRequest);
@@ -91,11 +90,11 @@ public class AuditFilter extends OncePerRequestFilter {
         }
     }
 
-    private String getRequestBody(ContentCachingRequestWrapper request) throws IOException {
+    private String getRequestBody(final ContentCachingRequestWrapper request) throws IOException {
         return new String(request.getInputStream().readAllBytes(), request.getCharacterEncoding());
     }
 
-    private String getResponseBody(ContentCachingResponseWrapper response) throws UnsupportedEncodingException {
+    private String getResponseBody(final ContentCachingResponseWrapper response) throws UnsupportedEncodingException {
         return new String(response.getContentAsByteArray(), response.getCharacterEncoding());
     }
 

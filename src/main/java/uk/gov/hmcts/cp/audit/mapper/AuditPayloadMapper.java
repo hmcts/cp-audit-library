@@ -26,14 +26,14 @@ public interface AuditPayloadMapper {
     AuditResponsePayload responseToPayload(HttpServletRequest request, HttpServletResponse response, String content);
 
     @Named("requestHeadersToMap")
-    public static Map<String, String> requestHeadersToMap(HttpServletRequest request) {
+    static Map<String, String> requestHeadersToMap(final HttpServletRequest request) {
         return Collections.list(request.getHeaderNames()).stream().collect(
                 Collectors.toMap(name -> name, name -> request.getHeader(name), (name, value) -> name + value)
         );
     }
 
     @Named("responseHeadersToMap")
-    public static Map<String, String> responseHeadersToMap(HttpServletResponse response) {
+    static Map<String, String> responseHeadersToMap(final HttpServletResponse response) {
         return response.getHeaderNames().stream().collect(
                 Collectors.toMap(name -> name, name -> response.getHeader(name), (name, value) -> name + value)
         );
