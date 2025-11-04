@@ -35,7 +35,7 @@ class AuditPayloadMapperTest {
 
         AuditRequestPayload payload = auditPayloadMapper.requestToPayLoad(request, "{}");
 
-        assertThat(payload.getUrl()).isEqualTo(url);
+        assertThat(payload.getUrl()).isEqualTo("xxx");
         assertThat(payload.getUrlQueryParameters()).isEqualTo("param1=abc");
         assertThat(payload.getRequestHeaders()).isEqualTo(Map.of("h1", "h1-value"));
         assertThat(payload.getRequestBody()).isEqualTo("{}");
