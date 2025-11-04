@@ -3,9 +3,11 @@ package uk.gov.hmcts.cp.audit.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.jms.JMSException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.jms.core.JmsTemplate;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.hmcts.cp.audit.model.AuditPayload;
 
 import static org.mockito.ArgumentMatchers.eq;
@@ -14,24 +16,20 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class AuditServiceTest {
 
-    private JmsTemplate jmsTemplate;
+    @Mock
     private ObjectMapper objectMapper;
-    private AuditService auditService;
+    @Mock
+    private AuditClient auditClient;
 
-    @BeforeEach
-    void setUp() {
-        jmsTemplate = mock(JmsTemplate.class);
-        objectMapper = mock(ObjectMapper.class);
-        auditService = new AuditService(jmsTemplate, objectMapper);
-    }
+    @InjectMocks
+    private AuditService auditService;
 
     @Test
     void dontPostMessageToArtemisWhenAuditPayloadIsNull() {
-
         auditService.postMessageToArtemis(null);
-
         verifyNoInteractions(objectMapper);
     }
 

@@ -17,6 +17,7 @@ import uk.gov.hmcts.cp.audit.mapper.AuditPayloadMapper;
 import uk.gov.hmcts.cp.audit.mapper.AuditPayloadMapperImpl;
 import uk.gov.hmcts.cp.audit.mapper.AuditRequestPayload;
 import uk.gov.hmcts.cp.audit.mapper.AuditResponsePayload;
+import uk.gov.hmcts.cp.audit.service.AuditClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
@@ -49,6 +50,8 @@ class AuditMapperIntegrationTest {
     ArgumentCaptor<String> stringCaptor;
     @MockitoBean
     AuditPayloadMapper mockAuditPayloadMapper;
+    @MockitoBean
+    AuditClient auditClient;
 
     AuditPayloadMapper realAuditPayloadMapper = new AuditPayloadMapperImpl();
 

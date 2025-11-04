@@ -27,10 +27,6 @@ import java.util.Map;
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE + 50)
 @AllArgsConstructor
-// Not convinced we should hide the AuditFilter bean. If subscriber brings in, they need to wire it up
-// We should test with the full stack of spring beans
-// We allow the disabling of the audit functionality to allow simplification of some integration tests
-// @ConditionalOnProperty(name = "audit.http.enabled", havingValue = "true")
 @Slf4j
 public class AuditFilter extends OncePerRequestFilter {
 

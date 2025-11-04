@@ -2,3 +2,6 @@ spring:
   artemis:
     user: "artemis"
     password: "artemis"
+audit:
+  jms:
+    enabled: true
