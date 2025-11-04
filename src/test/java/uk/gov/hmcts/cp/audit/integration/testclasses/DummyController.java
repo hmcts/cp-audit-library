@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DummyController {
 
     @PostMapping("/case/{id}/details")
-    public ResponseEntity<String> rootEndpoint(@PathVariable("id") String id) {
+    public ResponseEntity<String> rootEndpoint(@PathVariable("id") long id) {
         log.info("/endpoint hit for id:{}", id);
         return ResponseEntity.ok("Hello");
     }

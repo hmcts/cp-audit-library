@@ -56,7 +56,7 @@ class AuditMapperIntegrationTest {
     void root_endpoint_should_send_mapped_request_payload() throws Exception {
         mockMvc
                 .perform(
-                        post("/case/id1234/details?param1=abc")
+                        post("/case/1234/details?param1=abc")
                                 .header("test-header", "some-value")
                                 .content("json body"))
                 .andDo(print())
@@ -66,7 +66,7 @@ class AuditMapperIntegrationTest {
 
         AuditRequestPayload requestPayload = realAuditPayloadMapper.requestToPayLoad(requestCaptor.getValue(), stringCaptor.getValue());
 
-        assertThat(requestPayload.getUrl()).isEqualTo("/case/id1234/details");
+        assertThat(requestPayload.getUrl()).isEqualTo("/case/1234/details");
         assertThat(requestPayload.getUrlQueryParameters()).isEqualTo("param1=abc");
         assertThat(requestPayload.getRequestHeaders()).containsEntry("Content-Length", "9");
         assertThat(requestPayload.getRequestHeaders()).containsEntry("test-header", "some-value");
@@ -77,7 +77,7 @@ class AuditMapperIntegrationTest {
     void root_endpoint_should_send_mapped_response_payload() throws Exception {
         mockMvc
                 .perform(
-                        post("/case/id1234/details?param1=abc")
+                        post("/case/1234/details?param1=abc")
                                 .header("test-header", "some-value")
                                 .content("json body"))
                 .andDo(print())
@@ -87,7 +87,7 @@ class AuditMapperIntegrationTest {
 
         AuditResponsePayload responsePayload = realAuditPayloadMapper.responseToPayload(requestCaptor.getValue(), responseCaptor.getValue(), stringCaptor.getValue());
 
-        assertThat(responsePayload.getUrl()).isEqualTo("/case/id1234/details");
+        assertThat(responsePayload.getUrl()).isEqualTo("/case/1234/details");
         assertThat(responsePayload.getResponseHeaders()).containsEntry("Content-Length", "5");
         assertThat(responsePayload.getResponseBody()).isEqualTo("Hello");
         assertThat(responsePayload.getResponseStatus()).isEqualTo(200);
