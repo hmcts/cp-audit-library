@@ -28,6 +28,7 @@ class AuditClientTest {
 
     @Test
     void post_message_should_send_to_artemis() {
+        log.info("testing audit client");
         auditClient.postMessageToArtemis("My message", "{}");
         verify(jmsTemplate).convertAndSend(eq("jms.topic.auditing.event"), eq("{}"), messageCaptor.capture());
     }
