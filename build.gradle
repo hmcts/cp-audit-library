@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'uk.gov.hmcts.cp'
-version = System.getProperty('API_SPEC_VERSION') ?: '0.0.999'
+version = System.getProperty('ARTEFACT_VERSION') ?: '0.0.999'
 
 java {
   toolchain {
@@ -85,8 +85,11 @@ dependencies {
   api "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
   api "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion"
   api "io.swagger.parser.v3:swagger-parser:2.1.35"
+
+  implementation "org.mapstruct:mapstruct:1.5.5.Final"
+  annotationProcessor "org.mapstruct:mapstruct-processor:1.5.5.Final"
 }
 
-jar{
+jar {
   exclude("uk/gov/hmcts/cp/audit/DummySpringApplication.class")
 }

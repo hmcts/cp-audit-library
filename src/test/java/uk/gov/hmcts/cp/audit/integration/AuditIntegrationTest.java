@@ -53,7 +53,7 @@ class AuditIntegrationTest {
     void root_endpoint_should_be_audited() throws Exception {
         mockMvc
                 .perform(
-                        post("/")
+                        post("/case/id1234/details")
                                 .header("test-header", "some-value")
                                 .content("json body"))
                 .andDo(print())
