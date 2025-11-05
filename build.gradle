@@ -2,7 +2,7 @@ plugins {
   id 'java-library'
   id 'pmd'
   id 'maven-publish'
-  id 'org.cyclonedx.bom' version '2.4.1'
+  id 'org.cyclonedx.bom' version '3.0.1'
 }
 
 group = 'uk.gov.hmcts.cp'
@@ -58,10 +58,10 @@ tasks.withType(Test).configureEach {
 }
 
 ext {
-  springBootVersion = "3.4.3"
+  springBootVersion = "3.5.7"
   lombokVersion = "1.18.42"
-  jacksonVersion = "2.20.0"
-  jupiterVersion = "6.0.0"
+  jacksonVersion = "2.20.1"
+  jupiterVersion = "6.0.1"
 }
 
 dependencies {
@@ -86,8 +86,8 @@ dependencies {
   api "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion"
   api "io.swagger.parser.v3:swagger-parser:2.1.35"
 
-  implementation "org.mapstruct:mapstruct:1.5.5.Final"
-  annotationProcessor "org.mapstruct:mapstruct-processor:1.5.5.Final"
+  implementation "org.mapstruct:mapstruct:1.6.3"
+  annotationProcessor "org.mapstruct:mapstruct-processor:1.6.3"
 }
 
 jar {
