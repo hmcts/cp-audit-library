@@ -3,13 +3,19 @@ package uk.gov.hmcts.cp.audit.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.jms.JMSException;
+import jakarta.jms.Message;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.jms.core.MessagePostProcessor;
+import uk.gov.hmcts.cp.audit.model.AuditMetadata;
 import uk.gov.hmcts.cp.audit.model.AuditPayload;
 
+import static java.util.UUID.randomUUID;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -27,6 +33,9 @@ class AuditServiceTest {
     @InjectMocks
     private AuditService auditService;
 
+    @Captor
+    private ArgumentCaptor<MessagePostProcessor> captor;
+
     @Test
     void dontPostMessageToArtemisWhenAuditPayloadIsNull() {
         auditService.postMessageToArtemis(null);
@@ -35,23 +44,16 @@ class AuditServiceTest {
 
     @Test
     void logsAndSendsMessageWhenSerializationSucceeds() throws JsonProcessingException, JMSException {
-//        final AuditPayload auditPayload = mock(AuditPayload.class);
-//        final String serializedMessage = "{\"key\":\"value\"}";
-//        when(objectMapper.writeValueAsString(auditPayload)).thenReturn(serializedMessage);
-//        when(auditPayload.timestamp()).thenReturn("2024-10-10T10:00:00Z");
-//        final String auditMethodName = "dummy-name";
-//        when(auditPayload._metadata()).thenReturn(Metadata.builder().id(randomUUID()).name(auditMethodName).build());
-//
-//        auditService.postMessageToArtemis(auditPayload);
-//        // Inside your test method
-//        final ArgumentCaptor<MessagePostProcessor> captor = ArgumentCaptor.forClass(MessagePostProcessor.class);
-//        // verify(jmsTemplate).convertAndSend(eq("jms.topic.auditing.event"), eq(serializedMessage), captor.capture());
-//
-//        final Message mockMessage = mock(Message.class);
-//        captor.getValue().postProcessMessage(mockMessage);
-//        verify(mockMessage).setStringProperty(eq("CPPNAME"), eq(auditMethodName));
-//
-//        verify(objectMapper).writeValueAsString(auditPayload);
+        final AuditPayload auditPayload = mock(AuditPayload.class);
+        final String serializedMessage = "{\"key\":\"value\"}";
+        when(objectMapper.writeValueAsString(auditPayload)).thenReturn(serializedMessage);
+        when(auditPayload.timestamp()).thenReturn("2024-10-10T10:00:00Z");
+        final String auditMethodName = "dummy-name";
+        when(auditPayload._metadata()).thenReturn(AuditMetadata.builder().id(randomUUID()).name(auditMethodName).build());
+
+        auditService.postMessageToArtemis(auditPayload);
+
+        verify(auditClient).postMessageToArtemis("dummy-name", serializedMessage);
     }
 
     @Test

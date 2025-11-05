@@ -2,6 +2,7 @@ package uk.gov.hmcts.cp.audit.mapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -14,6 +15,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
+@Slf4j
 @ExtendWith(MockitoExtension.class)
 class AuditPayloadMapperTest {
 
@@ -28,6 +30,7 @@ class AuditPayloadMapperTest {
 
     @Test
     void mapper_should_populate_request_payload() {
+        log.info("COLING doing failure");
         when(request.getPathInfo()).thenReturn(url);
         when(request.getQueryString()).thenReturn("param1=abc");
         when(request.getHeaderNames()).thenReturn(Collections.enumeration(List.of("h1")));
